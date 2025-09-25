@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   {{-- CSS via Vite --}}
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  @vite(['resources/css/login.css', 'resources/js/app.js'])
 
   <!-- ===== BOX ICONS ===== -->
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet" />
@@ -17,7 +17,7 @@
     <div class="login__content">
       
       <div class="login__img">
-        <img src="{{ asset('assets/img/img-login.svg') }}" alt="Login Illustration" />
+        <img src="{{ asset('/img/TugasKu.png') }}" alt="Login Illustration" />
       </div>
       
       <div class="login__forms">

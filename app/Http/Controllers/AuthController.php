@@ -62,10 +62,50 @@ class AuthController extends Controller
         //
     }
 
-    // Login Page Auth
+    // ⬅️ Tampilkan halaman login
     public function showLogin()
     {
-        return view('auth.login');
+        return view('auth.login'); // resources/views/auth/login.blade.php
+    }
+
+    // ⬅️ Proses login
+    public function login(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (auth()->attempt($request->only('email', 'password'))) {
+            return redirect()->intended('/dashboard');
+        }
+
+        return back()->withErrors(['email' => 'Email atau password salah']);
+    }
+
+    // ⬅️ Tampilkan halaman register
+    public function showRegister()
+    {
+        return view('auth.register');
+    }
+
+    // ⬅️ Proses register
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required',
+            'email'    => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('login.form')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
 }

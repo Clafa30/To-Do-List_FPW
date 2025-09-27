@@ -311,7 +311,7 @@ main.container {
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background: linear-gradient(135deg, #667eea, #764ba2, #f72585);
+  background: linear-gradient(135deg, #556270, #4ECDC4, #C7F464, #FF6B6B, #C44D58);
   background-size: 300% 300%;
   animation: gradientShift 12s ease infinite;
 }

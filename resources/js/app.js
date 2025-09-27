@@ -51,18 +51,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-=======
-    // Notif Overlay
-    function showNotif(message) {
-        const overlay = document.getElementById("notifOverlay");
-        const messageBox = document.getElementById("notifMessage");
-        messageBox.textContent = message;
-        overlay.classList.remove("hidden");
-    }
-    
-    function closeNotif() {
-        document.getElementById("notifOverlay").classList.add("hidden");
-    }
+
+  // Notif Overlay
+  function showNotif(message) {
+      const overlay = document.getElementById("notifOverlay");
+      const messageBox = document.getElementById("notifMessage");
+      messageBox.textContent = message;
+      overlay.classList.remove("hidden");
+  }
+  
+  function closeNotif() {
+      document.getElementById("notifOverlay").classList.add("hidden");
+  }
 
 document.addEventListener("DOMContentLoaded", function () {
     // Toggle form login/sign-up

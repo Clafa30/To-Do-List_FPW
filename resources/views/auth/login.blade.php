@@ -2,38 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  {{-- CSS via Vite --}}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-  <!-- ===== BOX ICONS ===== -->
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet" />
-  
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
   <title>TugasKu</title>
 </head>
-<body>
+<body class="font-sans page-transition">
+
   <div class="login">
     <div class="login__content">
-      
+
       <div class="login__img">
-        <img src="{{ asset('assets/img/img-login.svg') }}" alt="Login Illustration" />
+        <lottie-player 
+          src="https://assets10.lottiefiles.com/packages/lf20_jcikwtux.json"
+          background="transparent"
+          speed="1"
+          style="width:100%; max-width:380px; height:380px;"
+          loop
+          autoplay>
+        </lottie-player>
       </div>
-      
-      <div class="login__forms">
+
+      {{-- === Form Wrapper === --}}
+      <div class="login__forms form-wrapper">
+
         {{-- SIGN IN FORM --}}
-        <form action="{{ route('login') }}" method="POST" class="login__registre" id="login-in" autocomplete="off" novalidate>
+        <form action="{{ route('login') }}" method="POST" 
+              class="login__form form-container {{ ($activeForm ?? 'login') == 'login' ? 'active' : '' }}" 
+              id="login-in" autocomplete="off" novalidate>
           @csrf
           <h1 class="login__title">Sign In</h1>
 
           <div class="login__box">
             <i class="bx bx-user login__icon"></i>
-            <input type="text" name="username" placeholder="Username" class="login__input" required autocomplete="username" />
+            <input type="text" name="username" placeholder="Username" class="login__input" required />
           </div>
 
           <div class="login__box">
             <i class="bx bx-lock-alt login__icon"></i>
-            <input type="password" name="password" placeholder="Password" class="login__input" required autocomplete="current-password" />
+            <input type="password" name="password" placeholder="Password" class="login__input" required />
           </div>
 
           <a href="#" class="login__forgot">Forgot password?</a>
@@ -42,35 +53,37 @@
 
           <div class="login__toggle-text">
             <span class="login__account">Don't have an Account?</span>
-            <span class="login__signin" id="sign-up">Sign Up</span>
+            <span class="login__link" id="sign-up">Sign Up</span>
           </div>
         </form>
 
         {{-- SIGN UP FORM --}}
-        <form action="{{ route('register') }}" method="POST" class="login__create none" id="login-up" autocomplete="off" novalidate>
+        <form action="{{ route('register') }}" method="POST" 
+              class="login__form form-container {{ ($activeForm ?? 'login') == 'register' ? 'active' : '' }}" 
+              id="login-up" autocomplete="off" novalidate>
           @csrf
           <h1 class="login__title">Create Account</h1>
 
           <div class="login__box">
             <i class="bx bx-user login__icon"></i>
-            <input type="text" name="username" placeholder="Username" class="login__input" required autocomplete="username" />
+            <input type="text" name="username" placeholder="Username" class="login__input" required />
           </div>
 
           <div class="login__box">
             <i class="bx bx-at login__icon"></i>
-            <input type="email" name="email" placeholder="Email" class="login__input" required autocomplete="email" />
+            <input type="email" name="email" placeholder="Email" class="login__input" required />
           </div>
 
           <div class="login__box">
             <i class="bx bx-lock-alt login__icon"></i>
-            <input type="password" name="password" placeholder="Password" class="login__input" required autocomplete="new-password" />
+            <input type="password" name="password" placeholder="Password" class="login__input" required />
           </div>
 
           <button type="submit" class="login__button">Sign Up</button>
 
           <div class="login__toggle-text">
             <span class="login__account">Already have an Account?</span>
-            <span class="login__signup" id="sign-in">Sign In</span>
+            <span class="login__link" id="sign-in">Sign In</span>
           </div>
 
           <div class="login__social">
@@ -79,7 +92,9 @@
             <a href="#" class="login__social-icon"><i class="bx bxl-google"></i></a>
           </div>
         </form>
+
       </div>
+      {{-- === /Form Wrapper === --}}
     </div>
   </div>
 
@@ -91,7 +106,6 @@
     </div>
   </div>
 
-  {{-- Error handling dari session Laravel --}}
   @if(session('error'))
   <script>
     showNotif("{{ session('error') }}");

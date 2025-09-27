@@ -44,35 +44,7 @@
             <span class="login__account">Don't have an Account?</span>
             <span class="login__signin" id="sign-up">Sign Up</span>
           </div>
-        </form>
-
-        {{-- SIGN UP FORM --}}
-        <form action="{{ route('register') }}" method="POST" class="login__create none" id="login-up" autocomplete="off" novalidate>
-          @csrf
-          <h1 class="login__title">Create Account</h1>
-
-          <div class="login__box">
-            <i class="bx bx-user login__icon"></i>
-            <input type="text" name="username" placeholder="Username" class="login__input" required autocomplete="username" />
-          </div>
-
-          <div class="login__box">
-            <i class="bx bx-at login__icon"></i>
-            <input type="email" name="email" placeholder="Email" class="login__input" required autocomplete="email" />
-          </div>
-
-          <div class="login__box">
-            <i class="bx bx-lock-alt login__icon"></i>
-            <input type="password" name="password" placeholder="Password" class="login__input" required autocomplete="new-password" />
-          </div>
-
-          <button type="submit" class="login__button">Sign Up</button>
-
-          <div class="login__toggle-text">
-            <span class="login__account">Already have an Account?</span>
-            <span class="login__signup" id="sign-in">Sign In</span>
-          </div>
-
+          
           <div class="login__social">
             <a href="#" class="login__social-icon"><i class="bx bxl-facebook"></i></a>
             <a href="#" class="login__social-icon"><i class="bx bxl-twitter"></i></a>

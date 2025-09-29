@@ -126,13 +126,13 @@
                 <div class="bg-white p-6 shadow-lg rounded-xl card-hover">
                     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Anggota 2" class="w-24 h-24 rounded-full mx-auto mb-4">
                     <h4 class="text-xl font-semibold text-blue-500">Dimas Agung Fitriyanto</h4>
-                    <p class="text-gray-500">Koruptor</p>
+                    <p class="text-gray-500">Giga Ched</p>
                     <p class="text-gray-600 text-sm mt-2">Membangun sistem yang andal untuk pengalaman terbaik.</p>
                 </div>
                 <div class="bg-white p-6 shadow-lg rounded-xl card-hover">
                     <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Anggota 3" class="w-24 h-24 rounded-full mx-auto mb-4">
                     <h4 class="text-xl font-semibold text-blue-500">Muhammad Firdaus.A</h4>
-                    <p class="text-gray-500">Mahasiswa</p>
+                    <p class="text-gray-500">Progaymer Handal</p>
                     <p class="text-gray-600 text-sm mt-2">Merancang antarmuka yang menarik dan mudah digunakan.</p>
                 </div>
                 <div class="bg-white p-6 shadow-lg rounded-xl card-hover">

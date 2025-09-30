@@ -17,9 +17,7 @@ function getCorrectPath($targetPath) {
     $currentDir = str_replace('\\', '/', $currentDir);
     
     // Check if we're in a subdirectory
-    if (strpos($currentDir, '/Admin/kegiatan') !== false || 
-        strpos($currentDir, '/Admin/anggota') !== false || 
-        strpos($currentDir, '/Admin/presensi') !== false) {
+    if (strpos($currentDir, '/Admin/anggota') !== false) {
         // We're in a subfolder, need to go up one level
         return '../../' . $targetPath;
     } elseif (strpos($currentDir, '/Admin') !== false) {
@@ -39,33 +37,21 @@ $menuItems = [
     [
         'title' => 'Dashboard',
         'icon' => 'fas fa-chart-line',
-        'path' => 'Admin/dashboard.php',
-        'file' => 'dashboard.php'
-    ],
-    [
-        'title' => 'Data Kegiatan',
-        'icon' => 'fas fa-calendar-alt',
-        'path' => 'Admin/kegiatan/data-kegiatan.php',
-        'file' => 'data-kegiatan.php'
+        'path' => 'Admin/dashboard.blade.php',
+        'file' => 'dashboard.blade.php'
     ],
     [
         'title' => 'Data Anggota',
         'icon' => 'fas fa-users',
-        'path' => 'Admin/anggota/data-anggota.php',
-        'file' => 'data-anggota.php'
-    ],
-    [
-        'title' => 'Presensi',
-        'icon' => 'fas fa-check-circle',
-        'path' => 'Admin/presensi/data-presensi.php',
-        'file' => 'data-presensi.php'
+        'path' => 'Admin/anggota/data-anggota.blade.php',
+        'file' => 'data-anggota.blade.php'
     ]
 ];
 ?>
 
 <!-- Navbar (Mobile Only) -->
 <div class="md:hidden flex justify-between items-center bg-[#27548A] text-white px-4 py-3 shadow-md fixed top-0 left-0 w-full z-50">
-    <h1 class="text-lg font-bold">UKM Fasilkom</h1>
+    <h1 class="text-lg font-bold">TugasKu</h1>
     <button id="menu-toggle" class="text-2xl focus:outline-none">☰</button>
 </div>
 
@@ -75,7 +61,7 @@ $menuItems = [
     <div class="p-4 space-y-4 flex flex-col justify-between h-full">
         <!-- Header -->
         <div>
-            <h1 class="text-2xl font-bold mb-6 hidden md:block">UKM Fasilkom</h1>
+            <h1 class="text-2xl font-bold mb-6 hidden md:block">TugasKu</h1>
             <nav class="space-y-2">
                 <?php foreach ($menuItems as $item): ?>
                     <?php 

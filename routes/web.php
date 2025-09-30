@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardAdminController;
 
 // Landing page (welcome)
 Route::get('/', function () {
@@ -21,10 +22,4 @@ Route::get('/dashboard', function () {
     return view('dashboard'); // nanti kamu bikin resources/views/dashboard.blade.php
 })->middleware('auth')->name('dashboard');
 
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', fn() => view('Admin.dashboard'));
-    Route::get('/anggota/data', fn() => view('Admin.anggota.data-anggota'));
-    Route::get('/anggota/edit', fn() => view('Admin.anggota.edit-anggota'));
-    Route::get('/kegiatan/data', fn() => view('Admin.kegiatan.data-kegiatan'));
-    Route::get('/presensi/data', fn() => view('Admin.presensi.data-presensi'));
-});
+Route::get('/admin/dashboard', [DashboardAdminController::class, 'index']) -> name('dashboard');

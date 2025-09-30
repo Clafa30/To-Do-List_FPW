@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardAdminController;
 use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // Landing page (welcome)
 Route::get('/', function () {
@@ -24,6 +25,13 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 Route::get('/admin/dashboard', [DashboardAdminController::class, 'index']) -> name('dashboard');
+
+// CRUD Admin (gunakan resource dengan only)
+Route::get('/admin/{admin}/edit', [DashboardAdminController::class, 'edit'])->name('admin.edit');
+Route::put('/admin/{admin}', [DashboardAdminController::class, 'update'])->name('admin.update');
+Route::delete('/admin/{admin}', [DashboardAdminController::class, 'destroy'])->name('admin.destroy');
+
+Route::post('/pengumuman/store', [DashboardAdminController::class, 'store'])->name('pengumuman.store');
 
 Route::post('/logout', function () {
     Auth::logout();

@@ -1,5 +1,4 @@
-
-<nav class="bg-white shadow-md px-6 py-4 flex items-center justify-between sticky top-0 z-40 mt-16 sm:mt-16 md:mt-0 lg:mt-0">
+<nav class="bg-white shadow-md px-6 py-4 flex items-center justify-between z-40 flex-shrink-0">
     <h2 class="text-xl font-semibold text-gray-800">Dashboard Admin</h2>
     
     <div class="relative">
@@ -52,7 +51,6 @@
 </nav>
 
 <style>
-/* CSS sama kayak versi native */
 @keyframes fadeIn { from {opacity:0;transform:translateY(-10px);} to {opacity:1;transform:translateY(0);} }
 .animate-fade { animation: fadeIn 0.2s ease-out; }
 #dropdownMenu { box-shadow: 0 10px 25px rgba(0,0,0,0.1); }

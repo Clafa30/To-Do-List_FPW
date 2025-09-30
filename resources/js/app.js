@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginUp = document.getElementById("login-up");
 
   function showForm(show, hide) {
+    if (!show || !hide) return;
     hide.classList.add("fade-out");
     hide.classList.remove("active");
 
@@ -18,13 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (signUpBtn && signInBtn) {
-    signUpBtn.addEventListener("click", () => {
-      showForm(loginUp, loginIn);
-    });
-
-    signInBtn.addEventListener("click", () => {
-      showForm(loginIn, loginUp);
-    });
+    signUpBtn.addEventListener("click", () => showForm(loginUp, loginIn));
+    signInBtn.addEventListener("click", () => showForm(loginIn, loginUp));
   }
 
   // === Animasi transisi halaman ===
@@ -50,4 +46,25 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 600);
     });
   }
+
+  // === Mobile Menu Toggle ===
+  const menuToggle = document.getElementById("menu-toggle");
+  const navMenu = document.querySelector("nav ul");
+
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener("click", () => {
+      navMenu.classList.toggle("hidden");
+    });
+  }
+
+  // === Smooth Scrolling ===
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener("click", function (e) {
+      const target = document.querySelector(this.getAttribute("href"));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  });
 });

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardAdminController;
+use Illuminate\Support\Facades\Auth;
 
 // Landing page (welcome)
 Route::get('/', function () {
@@ -23,3 +24,11 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 Route::get('/admin/dashboard', [DashboardAdminController::class, 'index']) -> name('dashboard');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();      // hapus session
+    request()->session()->regenerateToken(); // refresh CSRF token
+
+    return redirect('/login'); // redirect ke halaman login
+})->name('logout');

@@ -11,9 +11,8 @@
 </head>
 <body class="bg-gray-100 font-sans">
 <div class="flex h-screen">
-    <?php @include 'layouts.sidebar'; ?>
     <div class="flex-1 flex flex-col overflow-auto sm:ml-0 md:ml-80 lg:ml-80 xl:ml-80">
-        <?php @include 'includes.navbar'; ?>
+        @include ('layouts.navbar')
 
         <section class="p-6 space-y-6">
             <h1 class="text-2xl font-bold mb-4">Dashboard</h1>

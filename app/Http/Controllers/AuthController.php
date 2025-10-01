@@ -29,13 +29,15 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
 
-            return $user->role === 'admin'
-                ? redirect()->route('admin.dashboard')
-                : redirect()->route('user.dashboard');
+            if ($user->role === 'admin' || $user->role === 'superadmin') {
+                return redirect()->route('admin.dashboard');
+            }
+            return redirect()->route('user.dashboard');
         }
 
-        return back()->with('error', 'Email atau password salah.')
-                     ->withInput($request->only('email'));
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput();
     }
 
     // ✅ Tampilkan halaman register

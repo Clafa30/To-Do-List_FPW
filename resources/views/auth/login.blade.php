@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   @vite(['resources/css/login.css', 'resources/js/app.js'])
 
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet" />
@@ -116,6 +116,7 @@
             <span class="login__link" id="sign-in">Sign In</span>
           </div>
         </form>
+
 
           <div class="login__social">
             <a href="#" class="login__social-icon"><i class="bx bxl-facebook"></i></a>

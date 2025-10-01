@@ -8,3 +8,8 @@
 
 1. Butuh Auth untuk mengirimkan info role ke dashboard setelah login
 2. Benerin route untuk logout balik ke login page dan setelah edit atau hapus data anggota tetap di dashboard
+
+
+what to do ?
+
+1. sesuainn welcome, dashboard user, dashboard admin

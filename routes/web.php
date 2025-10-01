@@ -1,30 +1,23 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TugasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardAdminController;
 use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-// Landing page (welcome)
 Route::get('/', function () {
-    return view('welcome'); // ini otomatis ambil resources/views/welcome.blade.php
+    return view('welcome'); 
 })->name('welcome');
 
-// Login
+// ✅ Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login.form');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-// Register
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-
-// Dashboard (setelah login)
-Route::get('/dashboard', function () {
-    return view('dashboard'); // nanti kamu bikin resources/views/dashboard.blade.php
-})->middleware('auth')->name('dashboard');
-
-Route::get('/admin/dashboard', [DashboardAdminController::class, 'index']) -> name('dashboard');
 
 // CRUD Admin (gunakan resource dengan only)
 Route::get('/admin/{admin}/edit', [DashboardAdminController::class, 'edit'])->name('admin.edit');
@@ -40,3 +33,26 @@ Route::post('/logout', function () {
 
     return redirect('/login'); // redirect ke halaman login
 })->name('logout');
+
+// ✅ Dashboard User
+Route::get('/user/dashboard', function () {
+    return view('user.dashboard');
+})->middleware('auth')->name('user.dashboard');
+
+// ✅ Dashboard Admin
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware('auth')->name('admin.dashboard');
+
+// User Pass Parameter from dashboard
+Route::get('/user/dashboard', [DashboardController::class, 'index'])->name('user.dashboard')->middleware('auth');
+
+// Tugas Handle route
+Route::middleware('auth')->group(function () {
+    Route::get('/tugas/create', [TugasController::class, 'create'])->name('tugas.create');
+    Route::post('/tugas', [TugasController::class, 'store'])->name('tugas.store');
+    Route::get('/tugas/{id}/edit', [TugasController::class, 'edit'])->name('tugas.edit');
+    Route::put('/tugas/{id}', [TugasController::class, 'update'])->name('tugas.update');
+    Route::delete('/tugas/{id}', [TugasController::class, 'destroy'])->name('tugas.destroy');
+    Route::get('/tugas/{id}/complete', [TugasController::class, 'markComplete'])->name('tugas.complete');
+});

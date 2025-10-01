@@ -2,14 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
-=======
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  {{-- CSS via Vite --}}
   @vite(['resources/css/login.css', 'resources/js/app.js'])
 
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet" />
@@ -21,9 +15,7 @@
 
   <div class="login">
     <div class="login__content">
-
       <div class="login__img">
-
         <lottie-player 
           src="https://assets10.lottiefiles.com/packages/lf20_jcikwtux.json"
           background="transparent"
@@ -32,28 +24,26 @@
           loop
           autoplay>
         </lottie-player>
-=======
-        <img src="{{ asset('/img/TugasKu.png') }}" alt="Login Illustration" />
       </div>
 
       {{-- === Form Wrapper === --}}
       <div class="login__forms form-wrapper">
-
         {{-- SIGN IN FORM --}}
         <form action="{{ route('login') }}" method="POST" 
               class="login__form form-container {{ ($activeForm ?? 'login') == 'login' ? 'active' : '' }}" 
-              id="login-in" autocomplete="off" novalidate>
+              id="login-in" autocomplete="off">
           @csrf
           <h1 class="login__title">Sign In</h1>
+          @include('components.alert')
 
           <div class="login__box">
-            <i class="bx bx-user login__icon"></i>
-            <input type="text" name="username" placeholder="Username" class="login__input" required />
+            <i class="bx bx-at login__icon"></i>
+            <input type="email" name="email" placeholder="Email" class="login__input" required />
           </div>
 
           <div class="login__box">
             <i class="bx bx-lock-alt login__icon"></i>
-            <input type="password" name="password" placeholder="Password" class="login__input" required />
+            <input type="password" name="password" placeholder="Password" class="login__input" required minlength="6" />
           </div>
 
           <a href="#" class="login__forgot">Forgot password?</a>
@@ -72,10 +62,22 @@
               id="login-up" autocomplete="off" novalidate>
           @csrf
           <h1 class="login__title">Create Account</h1>
+          @include('components.alert')
+
+          {{-- Tampilkan semua error --}}
+          @if ($errors->any())
+              <div class="alert alert-danger">
+                  <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+          @endif
 
           <div class="login__box">
             <i class="bx bx-user login__icon"></i>
-            <input type="text" name="username" placeholder="Username" class="login__input" required />
+            <input type="text" name="name" placeholder="Full Name" class="login__input" required />
           </div>
 
           <div class="login__box">
@@ -88,24 +90,40 @@
             <input type="password" name="password" placeholder="Password" class="login__input" required />
           </div>
 
+          <div class="login__box">
+            <i class="bx bx-lock login__icon"></i>
+            <input type="password" name="password_confirmation" placeholder="Confirm Password" class="login__input" required />
+          </div>
+
+          {{-- Checkbox Admin --}}
+          <div class="login__box">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="is_admin" name="is_admin" value="1" />
+              <span>Daftar sebagai Admin</span>
+            </label>
+          </div>
+
+          {{-- OTP Field (awalnya tersembunyi, animasi slide-down) --}}
+          <div class="login__box otp-container" id="otpField">
+            <i class="bx bx-key login__icon"></i>
+            <input type="text" name="otp" placeholder="Masukkan OTP 6 digit" maxlength="6" class="login__input" />
+          </div>
+
           <button type="submit" class="login__button">Sign Up</button>
 
           <div class="login__toggle-text">
             <span class="login__account">Already have an Account?</span>
             <span class="login__link" id="sign-in">Sign In</span>
           </div>
+        </form>
 
-=======
-          
           <div class="login__social">
             <a href="#" class="login__social-icon"><i class="bx bxl-facebook"></i></a>
             <a href="#" class="login__social-icon"><i class="bx bxl-twitter"></i></a>
             <a href="#" class="login__social-icon"><i class="bx bxl-google"></i></a>
           </div>
         </form>
-
       </div>
-      {{-- === /Form Wrapper === --}}
     </div>
   </div>
 
@@ -121,6 +139,7 @@
   <script>
     showNotif("{{ session('error') }}");
   </script>
+  <script src="/resources/js/app.js"></script>
   @endif
 </body>
 </html>

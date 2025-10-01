@@ -1,5 +1,10 @@
 ## Update
 
-1. update route buat sign in ( sign up belum )
-2. nambahin login.app css dan app.js
-3. edit login blade link css nya
+1. Auth user dan admin sudah
+2. db sudah disesuaiin
+2. update css ( dibagi jadi 2 login dan main (app.css))
+3. update app.js
+
+what to do ?
+
+1. sesuainn welcome, dashboard user, dashboard admin

@@ -12,49 +12,69 @@ class AuthController extends Controller
     // ✅ Tampilkan halaman login
     public function showLogin()
     {
-    return view('auth.login', ['activeForm' => 'login']);
+        return view('auth.login', ['activeForm' => 'login']);
     }
 
     // ✅ Proses login
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard'); // ganti sesuai halaman setelah login
+            $user = Auth::user();
+
+            return $user->role === 'admin'
+                ? redirect()->route('admin.dashboard')
+                : redirect()->route('user.dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
+        return back()->with('error', 'Email atau password salah.')
+                     ->withInput($request->only('email'));
     }
 
     // ✅ Tampilkan halaman register
     public function showRegister()
     {
-    return view('auth.login', ['activeForm' => 'register']);
-        
+        return view('auth.login', ['activeForm' => 'register']);
     }
 
     // ✅ Proses register
     public function register(Request $request)
     {
-        $request->validate([
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+        ];
 
-        $user = User::create([
+        if ($request->has('is_admin')) {
+            $rules['otp'] = 'required|digits:6';
+        }
+
+        $request->validate($rules);
+
+        // ✅ OTP validasi (sementara hardcode 123456)
+        if ($request->has('is_admin') && $request->otp !== "123456") {
+            return back()->with('error', 'OTP Admin salah!')
+                         ->withInput();
+        }
+
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->has('is_admin') ? 'admin' : 'user',
         ]);
 
-        Auth::login($user);
-
-        return redirect('/dashboard'); // arahkan setelah register
+        // ✅ Setelah register → redirect ke Sign In
+        return redirect()->route('login.form')
+                         ->with('success', 'Registrasi berhasil, silakan login.');
     }
 
     // ✅ Proses logout
@@ -64,53 +84,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->route('login.form');
     }
-
-    // ⬅️ Tampilkan halaman login
-    public function showLogin()
-    {
-        return view('auth.login'); // resources/views/auth/login.blade.php
-    }
-
-    // ⬅️ Proses login
-    public function login(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-
-        if (auth()->attempt($request->only('email', 'password'))) {
-            return redirect()->intended('/dashboard');
-        }
-
-        return back()->withErrors(['email' => 'Email atau password salah']);
-    }
-
-    // ⬅️ Tampilkan halaman register
-    public function showRegister()
-    {
-        return view('auth.register');
-    }
-
-    // ⬅️ Proses register
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name'     => 'required',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return redirect()->route('login.form')->with('success', 'Registrasi berhasil! Silakan login.');
-    }
-
 }

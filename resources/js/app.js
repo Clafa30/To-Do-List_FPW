@@ -68,18 +68,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-=======
-    // Notif Overlay
-    function showNotif(message) {
-        const overlay = document.getElementById("notifOverlay");
-        const messageBox = document.getElementById("notifMessage");
-        messageBox.textContent = message;
-        overlay.classList.remove("hidden");
-    }
-    
-    function closeNotif() {
-        document.getElementById("notifOverlay").classList.add("hidden");
-    }
+
+  // Notif Overlay
+  function showNotif(message) {
+      const overlay = document.getElementById("notifOverlay");
+      const messageBox = document.getElementById("notifMessage");
+      messageBox.textContent = message;
+      overlay.classList.remove("hidden");
+  }
+  
+  function closeNotif() {
+      document.getElementById("notifOverlay").classList.add("hidden");
+  }
 
 document.addEventListener("DOMContentLoaded", function () {
     // Toggle form login/sign-up
@@ -102,33 +102,11 @@ document.addEventListener("DOMContentLoaded", function () {
     loginInForm.querySelector(".login__button").addEventListener("click", function (e) {
         e.preventDefault(); // Tetap dicegah dulu
 
-        const username = loginInForm.querySelector("input[placeholder='Username']").value.trim();
-        const password = loginInForm.querySelector("input[placeholder='Password']").value.trim();
+        const email = loginInForm.querySelector("input[name='email']").value.trim();
+        const password = loginInForm.querySelector("input[name='password']").value.trim();
 
-        if (!username || !password) {
-            showNotif("Username dan Password harus diisi.");
-            return;
-        }
-
-        if (password.length < 6) {
-            showNotif("Password minimal 6 karakter.");
-            return;
-        }
-
-        // Kirim ke server
-        loginInForm.submit(); 
-    });
-
-    // Validasi Sign Up
-    loginUpForm.querySelector(".login__button").addEventListener("click", function (e) {
-        e.preventDefault(); // Mencegah submit sebelum validasi
-
-        const username = loginUpForm.querySelector("input[name='username']").value.trim();
-        const email = loginUpForm.querySelector("input[name='email']").value.trim();
-        const password = loginUpForm.querySelector("input[name='password']").value.trim();
-
-        if (!username || !email || !password) {
-            showNotif("Semua field harus diisi.");
+        if (!email || !password) {
+            showNotif("Email dan Password harus diisi.");
             return;
         }
 
@@ -142,12 +120,58 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Kirim data ke server (register.php)
-        loginUpForm.submit();
+        const otpInput = document.getElementById("otp");
+        if (otpInput) {
+            const otpValue = otpInput.value;
+            console.log("OTP:", otpValue);
+        }
+
+        // Kirim ke server
+        loginInForm.submit(); 
+    });
+
+    // Validasi Sign In
+    loginInForm.querySelector(".login__button").addEventListener("click", function (e) {
+        e.preventDefault(); // Cegah submit dulu
+
+        const email = loginInForm.querySelector("input[name='email']").value.trim();
+        const password = loginInForm.querySelector("input[name='password']").value.trim();
+
+        if (!email || !password) {
+            showNotif("Email dan Password harus diisi.");
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            showNotif("Format email tidak valid.");
+            return;
+        }
+
+        if (password.length < 6) {
+            showNotif("Password minimal 6 karakter.");
+            return;
+        }
+
+        // Kirim ke server
+        loginInForm.submit();
     });
 
     function validateEmail(email) {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     }
+
+    // Checker Untuk Register ADMIN
+    const isAdminCheckbox = document.getElementById('is_admin');
+    const otpField = document.getElementById('otpField');
+
+    if (!isAdminCheckbox || !otpField) return;
+
+    // set visual awal sesuai state checkbox
+    otpField.classList.toggle('show', isAdminCheckbox.checked);
+
+    // tambahkan listener
+    isAdminCheckbox.addEventListener('change', function () {
+      otpField.classList.toggle('show', this.checked);
+    });
 });

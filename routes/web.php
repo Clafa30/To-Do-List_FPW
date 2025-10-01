@@ -4,6 +4,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TugasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardAdminController;
+use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('welcome'); 
@@ -16,7 +19,20 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// CRUD Admin (gunakan resource dengan only)
+Route::get('/admin/{admin}/edit', [DashboardAdminController::class, 'edit'])->name('admin.edit');
+Route::put('/admin/{admin}', [DashboardAdminController::class, 'update'])->name('admin.update');
+Route::delete('/admin/{admin}', [DashboardAdminController::class, 'destroy'])->name('admin.destroy');
+
+Route::post('/pengumuman/store', [DashboardAdminController::class, 'store'])->name('pengumuman.store');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();      // hapus session
+    request()->session()->regenerateToken(); // refresh CSRF token
+
+    return redirect('/login'); // redirect ke halaman login
+})->name('logout');
 
 // ✅ Dashboard User
 Route::get('/user/dashboard', function () {
@@ -40,4 +56,3 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tugas/{id}', [TugasController::class, 'destroy'])->name('tugas.destroy');
     Route::get('/tugas/{id}/complete', [TugasController::class, 'markComplete'])->name('tugas.complete');
 });
-

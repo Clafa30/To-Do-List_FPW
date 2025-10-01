@@ -16,11 +16,21 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-    {{-- Tempat untuk konten dari setiap halaman --}}
-    @yield('content')
-
     {{-- Bootstrap Bundle --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    {{-- Include Navbar --}}
+    @include('layouts.navbar')
+
+    <div class="container">
+        <div class="sidebar">
+            {{-- Include Sidebar --}}
+            @include('layouts.sidebar')
+        </div>
+        <div class="content">
+            {{-- Isi konten page --}}
+            @yield('content')
+        </div>
 
     {{-- Script tambahan tiap halaman --}}
     @yield('scripts')

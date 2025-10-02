@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pengumuman;
 use App\Models\User;
+use App\Models\Otp; // jangan lupa import model Otp
 
 class DashboardAdminController extends Controller
 {
@@ -18,35 +19,38 @@ class DashboardAdminController extends Controller
         // Ambil semua user dengan role admin
         $admins = User::where('role', 'admin')->get();
 
-        // kirim dua-duanya ke view
-        return view('Admin.dashboard', compact('pengumuman', 'admins'));
-        }
+        // Ambil semua OTP beserta user yang pakai
+        $otps = Otp::with('user')->orderBy('created_at', 'desc')->get();
 
-            public function edit(User $admin)
-        {
-            return view('Admin.edit', compact('admin'));
-        }
+        // kirim ke view
+        return view('admin.dashboard', compact('pengumuman', 'admins', 'otps'));
+    }
 
-        public function update(Request $request, User $admin)
-        {
-            $request->validate([
-                'name'  => 'required|string|max:255',
-                'email' => 'required|email',
-            ]);
+    public function edit(User $admin)
+    {
+        return view('admin.edit', compact('admin'));
+    }
 
-            $admin->update($request->only(['name','email']));
-            return redirect()->route('dashboard')->with('success', 'Data admin berhasil diperbarui');
-        }
+    public function update(Request $request, User $admin)
+    {
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email',
+        ]);
 
-        public function destroy(User $admin)
-        {
-            $admin->delete();
-            return redirect()->route('dashboard')->with('warning', 'Data admin berhasil dihapus');
-        }
+        $admin->update($request->only(['name','email']));
+        return redirect()->route('dashboard')->with('success', 'Data admin berhasil diperbarui');
+    }
+
+    public function destroy(User $admin)
+    {
+        $admin->delete();
+        return redirect()->route('dashboard')->with('warning', 'Data admin berhasil dihapus');
+    }
 
     public function store(Request $request)
     {
-        // Validasi input
+        // Validasi input pengumuman
         $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
@@ -62,4 +66,30 @@ class DashboardAdminController extends Controller
         // Redirect balik dengan pesan sukses
         return redirect()->back()->with('success', 'Pengumuman berhasil ditambahkan!');
     }
+
+    // Tambahkan fungsi untuk OTP
+    public function storeOtp(Request $request)
+    {
+        // cek role dulu
+        if (auth()->user()->role !== 'superadmin') {
+            abort(403, 'Unauthorized: hanya superadmin yang boleh membuat OTP');
+        }
+
+        $code = strtoupper(substr(bin2hex(random_bytes(3)), 0, 6)); // generate 6 karakter
+        Otp::create(['code' => $code]);
+
+        return redirect()->back()->with('success', 'OTP baru berhasil dibuat: '.$code);
+    }
+
+    public function destroyOtp($id)
+    {
+        // cek role dulu
+        if (auth()->user()->role !== 'superadmin') {
+            abort(403, 'Unauthorized: hanya superadmin yang boleh menghapus OTP');
+        }
+
+        Otp::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'OTP berhasil dihapus');
+    }
+
 }

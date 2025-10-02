@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TugasKuliah;
+use App\Models\Pengumuman;
 
 class TugasController extends Controller
 {
-    // List semua tugas
+    /**
+     * List semua tugas dengan filter dan sorting.
+     */
     public function index(Request $request)
     {
         $status   = $request->get('status');
         $priority = $request->get('priority');
+        $deadline = $request->get('deadline'); // filter berdasarkan deadline
         $sort     = $request->get('sort', 'deadline_asc');
 
         $allowedSort = [
-            'deadline_asc'  => ['deadline', 'asc'],
-            'deadline_desc' => ['deadline', 'desc'],
+            'deadline_asc'  => ['deadline', 'asc'],   // terdekat ke jauh
+            'deadline_desc' => ['deadline', 'desc'],  // jauh ke dekat
             'priority_desc' => ['prioritas', 'desc'],
             'created_desc'  => ['created_at', 'desc'],
         ];
@@ -35,74 +39,98 @@ class TugasController extends Controller
             $query->where('prioritas', $priority);
         }
 
+        if ($deadline) {
+            $query->whereDate('deadline', '<=', $deadline); // semua tugas sampai tanggal tertentu
+        }
+
         [$field, $direction] = $allowedSort[$sort];
         $tasks = $query->orderBy($field, $direction)->get();
 
-        return view('tugas.index', compact('tasks', 'status', 'priority', 'sort'));
+        $pengumuman = Pengumuman::latest()->first();
+
+        return view('tugas.index', compact('tasks', 'status', 'priority', 'deadline', 'sort', 'pengumuman'));
     }
 
-    // Form tambah tugas
+    /**
+     * Tampilkan form untuk menambah tugas baru.
+     */
     public function create()
     {
         return view('tugas.create');
     }
 
-    // Simpan tugas baru
+    /**
+     * Simpan tugas baru.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'mata_kuliah' => 'required|string|max:100',
-            'deskripsi'   => 'nullable|string',
-            'deadline'    => 'required|date',
-            'prioritas'   => 'nullable|in:rendah,sedang,tinggi',
+            'judul'     => 'required|string|max:100',
+            'deskripsi' => 'nullable|string',
+            'deadline'  => 'required|date',
+            'prioritas' => 'nullable|in:rendah,sedang,tinggi',
         ]);
 
         TugasKuliah::create([
-            'mata_kuliah' => $request->mata_kuliah,
-            'deskripsi'   => $request->deskripsi,
-            'deadline'    => $request->deadline,
-            'prioritas'   => $request->prioritas ?? 'sedang',
-            'status'      => 'belum_selesai',
+            'judul'     => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'deadline'  => $request->deadline,
+            'prioritas' => $request->prioritas ?? 'sedang',
+            'status'    => 'pending',
+            'user_id'   => auth()->id(),
         ]);
 
         return redirect()->route('tugas.index')->with('success', 'Tugas berhasil ditambahkan!');
     }
 
-    // Update tugas
+    /**
+     * Tampilkan form edit tugas.
+     */
+    public function edit($id)
+    {
+        $tugas = TugasKuliah::findOrFail($id);
+        return view('tugas.edit', compact('tugas'));
+    }
+
+    /**
+     * Update tugas.
+     */
     public function update(Request $request, $id)
     {
         $tugas = TugasKuliah::findOrFail($id);
 
         $request->validate([
-            'mata_kuliah' => 'required|string|max:100',
-            'deskripsi'   => 'nullable|string',
-            'deadline'    => 'required|date',
-            'prioritas'   => 'nullable|in:rendah,sedang,tinggi',
-            'status'      => 'nullable|in:belum_selesai,selesai',
+            'judul'     => 'required|string|max:100',
+            'deskripsi' => 'nullable|string',
+            'deadline'  => 'required|date',
+            'prioritas' => 'nullable|in:rendah,sedang,tinggi',
+            'status'    => 'nullable|in:pending,selesai',
         ]);
 
-        $tugas->update($request->only([
-            'mata_kuliah', 'deskripsi', 'deadline', 'prioritas', 'status'
-        ]));
+        $tugas->update($request->only(['judul', 'deskripsi', 'deadline', 'prioritas', 'status']));
 
         return redirect()->route('tugas.index')->with('success', 'Tugas berhasil diupdate!');
     }
 
-    // Hapus tugas
-    public function destroy($id)
-    {
-        $tugas = TugasKuliah::findOrFail($id);
-        $tugas->delete();
-
-        return redirect()->route('tugas.index')->with('success', 'Tugas berhasil dihapus!');
-    }
-
-    // Tandai selesai
+    /**
+     * Tandai tugas selesai.
+     */
     public function markComplete($id)
     {
         $tugas = TugasKuliah::findOrFail($id);
         $tugas->update(['status' => 'selesai']);
 
         return redirect()->route('tugas.index')->with('success', 'Tugas ditandai selesai!');
+    }
+
+    /**
+     * Hapus tugas.
+     */
+    public function destroy($id)
+    {
+        $tugas = TugasKuliah::findOrFail($id);
+        $tugas->delete();
+
+        return redirect()->route('tugas.index')->with('success', 'Tugas berhasil dihapus!');
     }
 }

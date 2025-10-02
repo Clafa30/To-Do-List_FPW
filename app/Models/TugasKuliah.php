@@ -12,11 +12,12 @@ class TugasKuliah extends Model
     protected $table = 'tugas_kuliah';
 
     protected $fillable = [
-        'mata_kuliah',
+        'judul',
         'deskripsi',
-        'tenggat_waktu',
+        'deadline',
         'prioritas',
         'status',
+        'user_id',
     ];
 
     // Kalau pakai created_at & updated_at dari tabel → biarkan default

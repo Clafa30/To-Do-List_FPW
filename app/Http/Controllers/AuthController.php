@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Otp;
 
 class AuthController extends Controller
 {
@@ -32,7 +33,7 @@ class AuthController extends Controller
             if ($user->role === 'admin' || $user->role === 'superadmin') {
                 return redirect()->route('admin.dashboard');
             }
-            return redirect()->route('user.dashboard');
+            return redirect()->route('tugas.index');
         }
 
         return back()->withErrors([
@@ -56,27 +57,40 @@ class AuthController extends Controller
         ];
 
         if ($request->has('is_admin')) {
-            $rules['otp'] = 'required|digits:6';
+            $rules['otp'] = 'required|string|size:6';
         }
 
         $request->validate($rules);
 
-        // ✅ OTP validasi (sementara hardcode 123456)
-        if ($request->has('is_admin') && $request->otp !== "123456") {
-            return back()->with('error', 'OTP Admin salah!')
-                         ->withInput();
+        // Validasi OTP
+        $validOtp = Otp::where('code', $request->otp)
+                    ->where('status', 'unused')
+                    ->first();
+
+        if ($request->has('is_admin') && !$validOtp) {
+            return back()->with('error', 'OTP Admin salah atau sudah digunakan!')
+                        ->withInput();
         }
 
-        User::create([
+        // Buat user baru
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->has('is_admin') ? 'admin' : 'user',
         ]);
 
+        // Tandai OTP jadi used + simpan user_id
+        if ($request->has('is_admin') && $validOtp) {
+            $validOtp->update([
+                'status'  => 'used',
+                'used_by' => $user->id, // <-- ini kunci supaya dashboard bisa tampil email
+            ]);
+        }
+
         // ✅ Setelah register → redirect ke Sign In
         return redirect()->route('login.form')
-                         ->with('success', 'Registrasi berhasil, silakan login.');
+                        ->with('success', 'Registrasi berhasil, silakan login.');
     }
 
     // ✅ Proses logout

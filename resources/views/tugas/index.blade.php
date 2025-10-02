@@ -46,7 +46,17 @@
                             <p class="mb-1"><i class="bi bi-calendar"></i> <strong>Deadline:</strong> 
                                 {{ $tugas->deadline ? \Carbon\Carbon::parse($tugas->deadline)->format('d M Y') : '-' }}
                             </p>
-                            <p class="mb-1"><i class="bi bi-flag"></i> <strong>Prioritas:</strong> {{ ucfirst($tugas->prioritas) }}</p>
+                            <p class="mb-1">
+                                <i class="bi bi-flag"></i> <strong>Prioritas:</strong> 
+                                <span class="badge 
+                                    @if($tugas->prioritas == 'rendah') bg-secondary
+                                    @elseif($tugas->prioritas == 'sedang') bg-warning text-dark
+                                    @elseif($tugas->prioritas == 'tinggi') bg-danger
+                                    @else bg-light text-dark
+                                    @endif">
+                                    {{ ucfirst($tugas->prioritas) }}
+                                </span>
+                            </p>
                             <p class="mb-3"><i class="bi bi-check2-circle"></i> <strong>Status:</strong> 
                                 <span class="badge {{ $tugas->status == 'pending' ? 'bg-warning text-dark' : 'bg-success' }}">
                                     {{ ucfirst($tugas->status) }}
@@ -58,6 +68,7 @@
                                 @if($tugas->status == 'pending')
                                     <form action="{{ route('tugas.complete', $tugas->id) }}" method="POST">
                                         @csrf
+                                        @method('PATCH')
                                         <button type="submit" class="btn btn-sm btn-info">
                                             <i class="bi bi-check2"></i> Selesai
                                         </button>

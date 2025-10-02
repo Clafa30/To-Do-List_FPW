@@ -117,12 +117,11 @@
           </div>
         </form>
 
-
-          <div class="login__social">
+        <div class="login__social">
             <a href="#" class="login__social-icon"><i class="bx bxl-facebook"></i></a>
-            <a href="#" class="login__social-icon"><i class="bx bxl-twitter"></i></a>
-            <a href="#" class="login__social-icon"><i class="bx bxl-google"></i></a>
-          </div>
+            <a href="{{ url('login/twitter') }}" class="login__social-icon"><i class="bx bxl-twitter"></i></a>
+            <a href="{{ url('login/google') }}" class="login__social-icon"><i class="bx bxl-google"></i></a>
+        </div>
         </form>
       </div>
     </div>

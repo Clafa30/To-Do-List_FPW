@@ -8,6 +8,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardAdminController;
 use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\TwitterController;
+use App\Http\Controllers\GoogleController;
 
 Route::get('/', function () {
     return view('welcome'); 
@@ -57,3 +59,12 @@ Route::middleware('auth')->group(function() {
     Route::post('/admin/otp', [DashboardAdminController::class, 'storeOtp'])->name('admin.otp.store');
     Route::delete('/admin/otp/{id}', [DashboardAdminController::class, 'destroyOtp'])->name('admin.otp.destroy');
 });
+
+// Auth Using 3th Party
+// Twitter
+Route::get('login/twitter', [TwitterController::class, 'redirectToTwitter']);
+Route::get('login/twitter/callback', [TwitterController::class, 'handleTwitterCallback']);
+
+// Google
+Route::get('login/google', [App\Http\Controllers\GoogleController::class, 'redirectToGoogle']);
+Route::get('login/google/callback', [App\Http\Controllers\GoogleController::class, 'handleGoogleCallback']);

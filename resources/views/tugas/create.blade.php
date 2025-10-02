@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('assets/css/user.css') }}?v={{ time() }}">
+@endpush
+
 @section('content')
 <div class="container">
     {{-- Header --}}

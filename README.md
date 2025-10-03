@@ -1,15 +1,27 @@
-## Update
+## Platform TugasKu
 
-1. Menambahkan Dashboard Admin 
-2. Menambahkan Fungsi untuk Membuat Pengumuman
-3. Membuat Models.Pengumuman dan Controllers.DashboardAdminController
+TugasKu platform manajemen tugas biar lebih ringkas.
 
-## Shortcomings
+deployed website for use https://tugasku.fwh.is
 
-1. Butuh Auth untuk mengirimkan info role ke dashboard setelah login
-2. Benerin route untuk logout balik ke login page dan setelah edit atau hapus data anggota tetap di dashboard
+## Noted -Read *important*
+
+1. import db terlebih dahulu, file tugasku.sql ada di root path, tidak perlu jalankan migrations
+2. Jika ingin login superadmin gunakan uus@example.com pass 123123
+3. handle error app_key nya missing, silhakan generate dahulu ( php artisan key:generate )
+4. jika laravel/socialite error ga kebaca instal dulu ( composer require laravel/socialite ) 'library 3th auth party'
 
 
-what to do ?
+# Fitur
 
-1. sesuainn welcome, dashboard user, dashboard admin
+1. Login as user
+2. Login as admin ( need otp from superadmin )
+3. Login with google ( only for user )
+4. manajemen tugas ( fitur marks as done, delete, edit )
+5. filter tugas 
+6. announce from admin dashboard ( ex for news or ads )
+
+# Anggota Kelompok jawa ('kata dimas')
+
+|   Rafaisya Dwi Adrianto    |   Yayan Mulyana                  |
+|   Dimas Agung Fitriyanto   |   Muhammad Firdaus annafiah      |

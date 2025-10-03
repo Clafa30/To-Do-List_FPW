@@ -30,6 +30,7 @@ class TugasController extends Controller
         }
 
         $query = TugasKuliah::query();
+        
         $query->where('user_id', auth()->id());
 
         if ($status) {

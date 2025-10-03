@@ -58,7 +58,8 @@
                         <i class="bi bi-pencil-square"></i>
                     </button>
                     <form id="delete-form-{{ $admin->id }}" action="{{ route('admin.destroy', $admin->id) }}" method="POST">
-                        @csrf @method('DELETE')
+                        @csrf 
+                        @method('DELETE')
                         <button type="button" class="delete" onclick="confirmDelete({{ $admin->id }})">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -85,7 +86,8 @@
                 <span class="badge {{ $otp->status==='used'?'badge-used':'badge-unused' }}">{{ ucfirst($otp->status) }}</span>
                 <p>Digunakan oleh: {{ $otp->user?->name ?? '-' }} {{ $otp->user?->email ?? '' }}</p>
                 <form action="{{ route('admin.otp.destroy', $otp->id) }}" method="POST" onsubmit="return confirm('Yakin hapus OTP?')">
-                    @csrf @method('DELETE')
+                    @csrf 
+                    @method('DELETE')
                     <button type="submit" class="otp-delete-btn"><i class="bi bi-trash"></i></button>
                 </form>
             </div>

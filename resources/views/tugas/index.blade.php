@@ -82,7 +82,8 @@
 
                                 {{-- Delete --}}
                                 <form action="{{ route('tugas.destroy', $tugas->id) }}" method="POST" onsubmit="return confirm('Yakin hapus tugas ini?')">
-                                    @csrf @method('DELETE')
+                                    @csrf 
+                                    @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">
                                         <i class="bi bi-trash"></i> Hapus
                                     </button>

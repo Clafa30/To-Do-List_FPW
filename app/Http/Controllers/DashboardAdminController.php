@@ -39,13 +39,13 @@ class DashboardAdminController extends Controller
         ]);
 
         $admin->update($request->only(['name','email']));
-        return redirect()->route('dashboard')->with('success', 'Data admin berhasil diperbarui');
+        return redirect()->route('admin.dashboard')->with('success', 'Data admin berhasil diperbarui');
     }
 
     public function destroy(User $admin)
     {
         $admin->delete();
-        return redirect()->route('dashboard')->with('warning', 'Data admin berhasil dihapus');
+        return redirect()->route('admin.dashboard')->with('warning', 'Data admin berhasil dihapus');
     }
 
     public function store(Request $request)

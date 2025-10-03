@@ -23,5 +23,4 @@ deployed website for use https://tugasku.fwh.is
 
 # Anggota Kelompok jawa ('kata dimas')
 
-|   Rafaisya Dwi Adrianto    |   Yayan Mulyana                  |
-|   Dimas Agung Fitriyanto   |   Muhammad Firdaus annafiah      |
+|   Rafaisya Dwi Adrianto    |   Yayan Mulyana           |   Dimas Agung Fitriyanto   |   Muhammad Firdaus annafiah      |

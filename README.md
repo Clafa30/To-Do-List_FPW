@@ -7,7 +7,7 @@ deployed website for use https://tugasku.fwh.is
 ## Noted -Read *important*
 
 1. import db terlebih dahulu, file tugasku.sql ada di root path, tidak perlu jalankan migrations
-2. Jika ingin login superadmin gunakan uus@example.com pass 123123
+2. Jika ingin login superadmin gunakan admin@example.com pass 123123
 3. handle error app_key nya missing, silhakan generate dahulu ( php artisan key:generate )
 4. jika laravel/socialite error ga kebaca instal dulu ( composer require laravel/socialite ) 'library 3th auth party'
 

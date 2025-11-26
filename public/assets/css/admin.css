@@ -1,0 +1,120 @@
+/* admin.css */
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin:0; padding:0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s;
+}
+.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+
+.card h2 { margin-bottom: 15px; font-size: 18px; color: #333; }
+.card h3 { margin:0 0 6px; font-size: 16px; color:#444; }
+.card p { margin: 3px 0; font-size: 14px; color:#555; }
+
+.admin-grid, .otp-grid, .pengumuman-list { display: flex; flex-wrap: wrap; gap: 15px; }
+
+.admin-card, .otp-card, .pengumuman-card {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 12px;
+    flex: 1 1 calc(25% - 15px);
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+.admin-card:hover, .otp-card:hover, .pengumuman-card:hover { transform: translateY(-2px); }
+
+.action-buttons {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 5px;
+}
+
+.action-buttons button {
+    padding: 4px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+    background: #6b7280;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    transition: background 0.2s;
+}
+.action-buttons button:hover { background:#3b82f6; }
+
+.hidden { display: none; }
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 8px;
+    color: #fff;
+}
+.badge-role { background: #3b82f6; }
+.badge-used { background: #ef4444; }
+.badge-unused { background: #10b981; }
+
+/* OTP delete button */
+.otp-delete-btn { background:none; border:none; color:#ef4444; cursor:pointer; font-size:16px; transition: color 0.2s;}
+.otp-delete-btn:hover { color:#dc2626; }
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset:0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.modal .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    position: relative;
+}
+.modal .close { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
+
+/* Alerts */
+.alert { padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; }
+.alert-success { background: #d1fae5; color: #065f46; border: 1px solid #10b981; }
+.alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #ef4444; }
+
+button, input, textarea { font-family: 'Segoe UI', Arial, sans-serif; }
+input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+
+/* Responsive untuk tombol modal di mobile */
+@media (max-width: 640px) {
+    #openModalBtn, #newsLogBtn {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+    }
+    #openModalBtn::after, #newsLogBtn::after {
+        content: '';
+    }
+    #openModalBtn span, #newsLogBtn span {
+        display: none; /* sembunyikan teks */
+    }
+}

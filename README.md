@@ -20,6 +20,8 @@ deployed website for use https://tugasku.fwh.is
 4. manajemen tugas ( fitur marks as done, delete, edit )
 5. filter tugas 
 6. announce from admin dashboard ( ex for news or ads )
+7. pagination and export task as PDF
+8. searching task
 
 # Anggota Kelompok jawa ('kata dimas')
 
